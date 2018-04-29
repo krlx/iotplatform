@@ -32,12 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.*;
+
 
 import java.util.Properties;
-
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
 public class ReadFromKafka {
 
@@ -71,7 +68,7 @@ public class ReadFromKafka {
 	config.put("bulk.flush.max.actions", "1");
 
 	List<InetSocketAddress> transportAddresses = new ArrayList<>();
-	transportAddresses.add(new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 9200));
+	transportAddresses.add(new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 9300));
 	
 	stream.addSink(new ElasticsearchSink<>(
 				config,
@@ -90,7 +87,7 @@ public class ReadFromKafka {
 
 			// construct JSON document to index
 			Map<String, String> json = new HashMap<>();
-			json.put("name", "Hello this is a test");
+			json.put("name", element);
 
 			IndexRequest rqst = Requests.indexRequest()
 					.index("testindex")        // index name
