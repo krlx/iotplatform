@@ -20,3 +20,13 @@ exports.read_a_record = function(req, res) {
 		res.json(record);
 	}); 
 };
+
+exports.get_all_index_records = function(req, res) { 
+	client.search({
+		index: req.params.indexname
+	}, function(err, record) {
+		if (err) 
+			res.send(err);
+		res.json(record);
+	}); 
+};

@@ -4,7 +4,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 
-
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RuntimeContext;
@@ -41,7 +40,8 @@ public class ReadFromKafka {
 
   public static void main(String[] args) throws Exception {
     // create execution environment
-    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    StreamExecutionEnvironment env = 
+		StreamExecutionEnvironment.getExecutionEnvironment();
 
     Properties properties = new Properties();
     properties.setProperty("bootstrap.servers", "localhost:9092");
@@ -49,7 +49,8 @@ public class ReadFromKafka {
 
 
     DataStream<String> stream = env
-            .addSource(new FlinkKafkaConsumer010<>("testing", new SimpleStringSchema(), properties));
+            .addSource(new FlinkKafkaConsumer010<>("testing", 
+				new SimpleStringSchema(), properties));
 
     stream.map(new MapFunction<String, String>() {
       private static final long serialVersionUID = -6867736771747690202L;
@@ -90,8 +91,8 @@ public class ReadFromKafka {
 			json.put("name", element);
 
 			IndexRequest rqst = Requests.indexRequest()
-					.index("testindex")        // index name
-					.type("agents")  			// mapping name
+					.index("weatherdata")        // index name
+					.type("sensors")  			// mapping name
 					.source(json);
 
 			indexer.add(rqst);
